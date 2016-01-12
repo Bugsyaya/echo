@@ -14,7 +14,7 @@ public class Serveur
 			while(true)
 			{
 				Socket client = server.accept();
-				Handler handler = new Handler(client);
+				Client handler = new Client(client);
 				handler.start();
 			}
 		}
