@@ -11,6 +11,11 @@
  */
 package appli;
 
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
+import java.io.PrintWriter;
+import java.net.Socket;
+
 
 
 /**
@@ -32,7 +37,7 @@ public class Client extends Thread
 		{
 			BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
 			PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
-			write.println("[type 'bye' to disconnect");
+			writer.println("[type 'bye' to disconnect");
 
 			while(true)
 			{
@@ -47,7 +52,7 @@ public class Client extends Thread
 		}
 		catch (Exception e)
 		{
-			System.out.println(e.message());
+			System.out.println(e.getMessage());
 		}
 		finally
 		{
@@ -57,7 +62,7 @@ public class Client extends Thread
 			}
 			catch (Exception e)
 			{
-				System.out.println(e.message());
+				System.out.println(e.getMessage());
 			}
 		}
 	}

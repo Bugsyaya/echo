@@ -20,7 +20,7 @@ public class Serveur
 		}
 		catch(Exception e)
 		{
-			System.out.println(e.message());
+			System.out.println(e.getMessage());
 		}
 	}
 }
