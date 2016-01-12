@@ -11,11 +11,54 @@
  */
 package appli;
 
+
+
 /**
  * 
  *
  */
-public class Client
+public class Client extends Thread
 {
+	Socket client;
 
+	Client(Socket client)
+	{
+		this.client = client;
+	}
+
+	public void run()
+	{
+		try
+		{
+			BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+			PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
+			write.println("[type 'bye' to disconnect");
+
+			while(true)
+			{
+				String line = reader.readLine();
+				if (line.trim().equals("bye")) 
+				{
+					writer.println("bye !");
+					break;
+				}
+				writer.println("[echo] : " + line);
+			}
+		}
+		catch (Exception e)
+		{
+			System.out.println(e.message());
+		}
+		finally
+		{
+			try
+			{
+				client.close();
+			}
+			catch (Exception e)
+			{
+				System.out.println(e.message());
+			}
+		}
+	}
 }
