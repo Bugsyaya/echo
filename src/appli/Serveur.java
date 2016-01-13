@@ -4,16 +4,25 @@ import java.io.*;
 import java.net.*;
 import java.lang.Thread;
 
-public class Serveur
+public class Serveur extends Abstract_Serveur
 {
-	public static void main (String[] args)
+	
+	public Serveur() {
+		try {
+			this.connexion = new ServerSocket(5566);
+		}
+		catch(Exception e) {
+			System.out.println(e.getMessage());
+		}
+	}
+	
+	public void run ()
 	{
 		try
 		{
-			ServerSocket server = new ServerSocket(5566);
 			while(true)
 			{
-				Socket client = server.accept();
+				Socket client = connexion.accept();
 				Client handler = new Client(client);
 				handler.start();
 			}
