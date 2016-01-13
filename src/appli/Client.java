@@ -12,6 +12,7 @@
 package appli;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
@@ -50,7 +51,7 @@ public class Client extends Thread
 				writer.println("[echo] : " + line);
 			}
 		}
-		catch (Exception e)
+		catch (IOException e)
 		{
 			System.out.println(e.getMessage());
 		}
@@ -60,7 +61,7 @@ public class Client extends Thread
 			{
 				client.close();
 			}
-			catch (Exception e)
+			catch (IOException e)
 			{
 				System.out.println(e.getMessage());
 			}

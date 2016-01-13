@@ -11,8 +11,8 @@ public class Serveur extends Abstract_Serveur
 		try {
 			this.connexion = new ServerSocket(5566);
 		}
-		catch(Exception e) {
-			System.out.println(e.getMessage());
+		catch(IOException e) {
+			System.out.println("Impossible de se connecter :\n" + e.getMessage());
 		}
 	}
 	
@@ -27,7 +27,7 @@ public class Serveur extends Abstract_Serveur
 				handler.start();
 			}
 		}
-		catch(Exception e)
+		catch(IOException e)
 		{
 			System.out.println(e.getMessage());
 		}
