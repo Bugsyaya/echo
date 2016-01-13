@@ -16,8 +16,6 @@ import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-
-
 /**
  * 
  *
@@ -35,16 +33,18 @@ public class Client extends Thread
 	{
 		try
 		{
-			BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
+			BufferedReader reader = new BufferedReader(new InputStreamReader(
+					client.getInputStream()));
 			PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
-			writer.println("[type 'bye' to disconnect");
+			writer.println("Entrez '\\quit' pour quitter l'application");
 
-			while(true)
+			while (true)
 			{
+				writer.println("[Vous] : ");
 				String line = reader.readLine();
-				if (line.trim().equals("bye")) 
+				if (line.trim().equals("\\quit"))
 				{
-					writer.println("bye !");
+					writer.println("A bientôt !");
 					break;
 				}
 				writer.println("[echo] : " + line);
