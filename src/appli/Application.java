@@ -11,6 +11,11 @@
  */
 package appli;
 
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
+
 /**
  * Classe principal de l'application
  */
@@ -23,7 +28,32 @@ public class Application
 	 */
 	public static void main(String[] args)
 	{
-		Serveur serveur = new Serveur();
-		serveur.run();
+		Properties prop = new Properties();
+		
+		try 
+		{
+			prop.load(new FileInputStream("config.properties"));
+			
+			if("haut".equals(prop.getProperty("niveau"))) 
+			{
+				ServeurHaut serveur = new ServeurHaut();
+				serveur.run();
+			} 
+			else if("bas".equals(prop.getProperty("niveau"))) 
+			{
+				ServeurBas serveur = new ServeurBas();
+				serveur.run();
+			} 
+			else 
+			{
+				System.err.println("Propriété niveau fausse");
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("Fichier config.properties introuvable");
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
+		}
 	}
 }

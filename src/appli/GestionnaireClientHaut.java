@@ -1,8 +1,8 @@
 /**
  * Projet Programmation 2 - Licence professionnel SIL en alternance
- * 14 décembre 2015 / 15 janvier 2016
+ * 14 d�cembre 2015 / 15 janvier 2016
  *  
- * @author Cadorel Maël - Blin Marina
+ * @author Cadorel Ma�l - Blin Marina
  * @version 1.0.0
  */
 
@@ -21,32 +21,24 @@ import java.net.Socket;
  * 
  *
  */
-public class Client extends Thread
+public class GestionnaireClientHaut extends Thread
 {
-	Socket client;
+	private Socket client;
+	private ServeurHaut server;
 
-	Client(Socket client)
+	GestionnaireClientHaut(Socket client, ServeurHaut server)
 	{
 		this.client = client;
+		this.server = server;
 	}
 
 	public void run()
 	{
-		PrintWriter writer = null;
-
 		try
 		{
-			writer = new PrintWriter(client.getOutputStream(), true);
-		}
-		catch (IOException e1)
-		{
-			e1.printStackTrace();
-		}
-
-		try
-		{
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					client.getInputStream()));
+			PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
+		
+			BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
 			writer.println("Entrez '\\quit' pour quitter l'application");
 
@@ -54,10 +46,10 @@ public class Client extends Thread
 			{
 				writer.println("[Vous] : ");
 				String line = reader.readLine();
-				System.out.println("[Mot/Phrase à retourner] : " + line);
+				System.out.println("[Mot/Phrase � retourner] : " + line);
 				if (line.trim().equals("\\quit"))
 				{
-					writer.println("A bientôt !");
+					writer.println("A bient�t !");
 					break;
 				}
 				writer.println("[echo] : " + line);
@@ -66,12 +58,13 @@ public class Client extends Thread
 		}
 		catch (IOException e)
 		{
-			writer.println("Vous avez été déconnecté !");
+			System.out.println(e.getMessage());
 		}
 		finally
 		{
 			try
 			{
+				server.removeClient();
 				client.close();
 			}
 			catch (IOException e)
