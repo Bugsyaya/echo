@@ -32,17 +32,29 @@ public class Client extends Thread
 
 	public void run()
 	{
+		PrintWriter writer = null;
+
+		try
+		{
+			writer = new PrintWriter(client.getOutputStream(), true);
+		}
+		catch (IOException e1)
+		{
+			e1.printStackTrace();
+		}
+
 		try
 		{
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					client.getInputStream()));
-			PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
+
 			writer.println("Entrez '\\quit' pour quitter l'application");
 
 			while (true)
 			{
 				writer.println("[Vous] : ");
 				String line = reader.readLine();
+				System.out.println("[Mot/Phrase à retourner] : " + line);
 				if (line.trim().equals("\\quit"))
 				{
 					writer.println("A bientôt !");
@@ -50,10 +62,11 @@ public class Client extends Thread
 				}
 				writer.println("[echo] : " + line);
 			}
+
 		}
 		catch (IOException e)
 		{
-			System.out.println(e.getMessage());
+			writer.println("Vous avez été déconnecté !");
 		}
 		finally
 		{
