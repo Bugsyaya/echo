@@ -1,4 +1,4 @@
-package appli;
+package basNiveau;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -41,13 +41,13 @@ public class ServeurBas
 				if (getCountClient() < MAXCLIENT)
 				{
 					addClient();
-					writer.println("Vous êtes le " + countClient + " client\n");
 					client.setSoTimeout(Integer.parseInt(prop.getProperty("port")) * 1000);
 
 					System.out.println("Client connecté : " + client);
 					
 					GestionnaireClientBas handler = new GestionnaireClientBas(client, this);
-					handler.start();
+					Thread thread = new Thread(handler);
+					thread.start();
 				}
 				else
 				{
@@ -62,7 +62,7 @@ public class ServeurBas
 		}
 	}
 	
-	public synchronized int getCountClient()
+	public int getCountClient()
 	{
 		return countClient;
 	}
