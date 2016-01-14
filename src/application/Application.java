@@ -9,12 +9,16 @@
 /**
  * Localisation de la classe
  */
-package appli;
+package application;
+
+import hautNiveau.ServeurHaut;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
+
+import basNiveau.ServeurBas;
 
 /**
  * Classe principal de l'application
@@ -48,11 +52,17 @@ public class Application
 			{
 				System.err.println("Propriété niveau fausse");
 			}
-		} catch (FileNotFoundException e) {
+		} 
+		catch (FileNotFoundException e) 
+		{
 			System.err.println("Fichier config.properties introuvable");
-		} catch (IOException e) {
+		} 
+		catch (IOException e) 
+		{
 			System.err.println(e.getMessage());
-		} catch (Exception e) {
+		} 
+		catch (Exception e) 
+		{
 			System.err.println(e.getMessage());
 		}
 	}

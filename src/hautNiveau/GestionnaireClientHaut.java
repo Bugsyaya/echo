@@ -1,4 +1,4 @@
-package appli;
+package hautNiveau;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +10,7 @@ import java.util.concurrent.Callable;
 public class GestionnaireClientHaut implements Callable<Object> 
 {
 
-	Socket client;
+	private Socket client;
 
 	GestionnaireClientHaut(Socket client)
 	{
@@ -19,19 +19,9 @@ public class GestionnaireClientHaut implements Callable<Object>
 
 	public Object call()
 	{
-		PrintWriter writer = null;
-
 		try
 		{
-			writer = new PrintWriter(client.getOutputStream(), true);
-		}
-		catch (IOException e1)
-		{
-			e1.printStackTrace();
-		}
-
-		try
-		{
+			PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					client.getInputStream()));
 
@@ -41,10 +31,10 @@ public class GestionnaireClientHaut implements Callable<Object>
 			{
 				writer.println("[Vous] : ");
 				String line = reader.readLine();
-				System.out.println("[Mot/Phrase à retourner] : " + line);
+				System.out.println("[Mot/Phrase � retourner] : " + line);
 				if (line.trim().equals("\\quit"))
 				{
-					writer.println("A bientôt !");
+					writer.println("A bient�t !");
 					break;
 				}
 				writer.println("[echo] : " + line);
@@ -53,7 +43,7 @@ public class GestionnaireClientHaut implements Callable<Object>
 		}
 		catch (IOException e)
 		{
-			writer.println("Vous avez été déconnecté !");
+			System.out.println(e.getMessage());
 		}
 		finally
 		{
