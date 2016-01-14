@@ -5,35 +5,29 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
-import java.util.concurrent.Callable;
 
-public class ClientHautNiv implements Callable<Object> 
+/**
+ * 
+ *
+ */
+public class GestionnaireClientBas extends Thread
 {
+	private Socket client;
+	private ServeurBas server;
 
-	Socket client;
-
-	ClientHautNiv(Socket client)
+	GestionnaireClientBas(Socket client, ServeurBas server)
 	{
 		this.client = client;
+		this.server = server;
 	}
 
-	public Object call()
+	public void run()
 	{
-		PrintWriter writer = null;
-
 		try
 		{
-			writer = new PrintWriter(client.getOutputStream(), true);
-		}
-		catch (IOException e1)
-		{
-			e1.printStackTrace();
-		}
-
-		try
-		{
-			BufferedReader reader = new BufferedReader(new InputStreamReader(
-					client.getInputStream()));
+			PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
+		
+			BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
 
 			writer.println("Entrez '\\quit' pour quitter l'application");
 
@@ -41,10 +35,10 @@ public class ClientHautNiv implements Callable<Object>
 			{
 				writer.println("[Vous] : ");
 				String line = reader.readLine();
-				System.out.println("[Mot/Phrase à retourner] : " + line);
+				System.out.println("[Mot/Phrase � retourner] : " + line);
 				if (line.trim().equals("\\quit"))
 				{
-					writer.println("A bientôt !");
+					writer.println("A bient�t !");
 					break;
 				}
 				writer.println("[echo] : " + line);
@@ -53,12 +47,13 @@ public class ClientHautNiv implements Callable<Object>
 		}
 		catch (IOException e)
 		{
-			writer.println("Vous avez été déconnecté !");
+			System.out.println(e.getMessage());
 		}
 		finally
 		{
 			try
 			{
+				server.removeClient();
 				client.close();
 			}
 			catch (IOException e)
@@ -66,6 +61,5 @@ public class ClientHautNiv implements Callable<Object>
 				System.out.println(e.getMessage());
 			}
 		}
-		return null;
 	}
 }
