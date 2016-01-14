@@ -11,6 +11,10 @@
  */
 package appli;
 
+import java.util.HashMap;
+import java.util.ResourceBundle;
+import java.util.MissingResourceException;
+
 /**
  * Classe principal de l'application
  */
@@ -23,7 +27,24 @@ public class Application
 	 */
 	public static void main(String[] args)
 	{
-		Serveur serveur = new Serveur();
+		HashMap<String, String> CONFIG = new HashMap<String, String>();
+		CONFIG = new HashMap<String, String>();
+		CONFIG.put("timeout", "240");
+		CONFIG.put("port", "5566");
+		CONFIG.put("level", "bas");
+        
+		try 
+		{
+			ResourceBundle resources = ResourceBundle.getBundle("appli.config");
+		}
+		catch(MissingResourceException e) 
+		{
+			System.out.println(	"Erreur : impossible de trouver un ficher de" +
+								"configuration 'config.properties', utilisation" +
+								"des paramètres par défaut.");
+		}
+		
+		Serveur serveur = new Serveur(CONFIG);
 		serveur.run();
 	}
 }
