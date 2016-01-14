@@ -7,8 +7,9 @@ import java.io.PrintWriter;
 import java.net.Socket;
 
 /**
- * 
- *
+ * Thread pour représenter une connexion d'un client
+ * au serveur echo. Il implémente la tâche de renvoyer
+ * au client ses messages.
  */
 public class GestionnaireClientBas extends Thread
 {
@@ -18,13 +19,22 @@ public class GestionnaireClientBas extends Thread
 	GestionnaireClientBas(Socket client, ServeurBas server)
 	{
 		this.client = client;
+		
+		// utile pour comptabiliser les déconnexions
 		this.server = server;
 	}
 
+	/**
+	 * Définit la tâche assignée à ce thread.
+	 * C'est le point d'entrée du thread, la 
+	 * méthode appelée lorsqu'on lance 
+	 * GestionnaireClientBas.start().
+	 */
 	public void run()
 	{
 		try
 		{
+			// chaque gestionnaire de client doit avoir son propre writer
 			PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
 		
 			BufferedReader reader = new BufferedReader(new InputStreamReader(client.getInputStream()));
@@ -35,15 +45,19 @@ public class GestionnaireClientBas extends Thread
 			{
 				writer.println("[Vous] : ");
 				String line = reader.readLine();
-				System.out.println("[Mot/Phrase � retourner] : " + line);
+				
+				// 'logging' basique sur le serveur
+				System.out.println("[Mot/Phrase à retourner] : " + line);
+				
 				if (line.trim().equals("\\quit"))
 				{
-					writer.println("A bient�t !");
+					writer.println("A bientôt !");
 					break;
 				}
+				
+				// fonctionnalité d'echo
 				writer.println("[echo] : " + line);
 			}
-
 		}
 		catch (IOException e)
 		{
@@ -53,6 +67,7 @@ public class GestionnaireClientBas extends Thread
 		{
 			try
 			{
+				// informe le serveur qu'une 'place' s'est libérée
 				server.removeClient();
 				client.close();
 			}

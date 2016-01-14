@@ -7,20 +7,35 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.Properties;
 
+
+/**
+ * Implémentation bas niveau du serveur TCP echo.
+ * Renvoie les messages reçus via une connexion ServerSocket.
+ * Chaque client connecté est géré par un thread serveur.
+ * 
+ */
 public class ServeurBas
 {
-	private int MAXCLIENT;
+	// on veut contrôler le nombre maximum de clients connectés.
+	private int MAXCLIENT; 
 	private int countClient = 0;
 	
 	Properties prop = new Properties();
 	private ServerSocket connexion;
 
+	/**
+	 * Constructeur. Il se charge de lire
+	 * le fichier de configuration et d'initialiser
+	 * le socket serveur. 
+	 */
 	public ServeurBas()
 	{
 		try {
+			// configuration
 			prop.load(new FileInputStream("config.properties"));
-
 			MAXCLIENT = Integer.parseInt(prop.getProperty("coMax"));
+			
+			// ouverture du socket
 			this.connexion = new ServerSocket(Integer.parseInt(prop.getProperty("port")));
 		}
 		catch (IOException e)
@@ -28,30 +43,39 @@ public class ServeurBas
 			System.out.println("Impossible de se connecter :\n" + e.getMessage());
 		}
 	}
-
+	
+	/**
+	 * Appelée pour démarrer le serveur.
+	 */
 	public void run()
 	{
 		try
 		{
 			while (true)
 			{
+				// socket en écoute
 				Socket client = connexion.accept();
+
+				// le writer gère l'affichage chez le client
 				PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
 				
 				if (getCountClient() < MAXCLIENT)
 				{
 					addClient();
-					writer.println("Vous �tes le " + countClient + " client\n");
+					writer.println("Vous êtes le " + countClient + " client\n");
+					
+					// le socket gère lui-même le timeout
 					client.setSoTimeout(Integer.parseInt(prop.getProperty("port")) * 1000);
 
-					System.out.println("Client connect� : " + client);
+					System.out.println("Client connecté : " + client);
 					
+					// Bas niveau : on démarre juste un thread Client
 					GestionnaireClientBas handler = new GestionnaireClientBas(client, this);
 					handler.start();
 				}
 				else
 				{
-					writer.println("Le nombre de personne maximum est atteint pour le moment. Veuillez attendre.");
+					writer.println("Le nombre de personnes maximum est atteint pour le moment. Veuillez attendre.");
 					client.close();
 				}
 			}
@@ -62,16 +86,30 @@ public class ServeurBas
 		}
 	}
 	
+	/**
+	 * Accesseur de countClient (utile pour contrôler
+	 * le maximum de clients actifs)
+	 * @return int
+	 */
 	public synchronized int getCountClient()
 	{
 		return countClient;
 	}
 	
+	/**
+	 * Incrémente countClient (utile pour contrôler
+	 * le maximum de clients actifs)
+	 */
 	public synchronized void addClient()
 	{
 		countClient ++;
 	}
 	
+	/**
+	 * Décrémente countClient (utile pour contrôler
+	 * le maximum de clients actifs). Appelé par 
+	 * le client lorsqu'il se déconnecte.
+	 */
 	public synchronized void removeClient()
 	{
 		countClient --;
