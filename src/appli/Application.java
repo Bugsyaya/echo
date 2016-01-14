@@ -37,7 +37,7 @@ public class Application
 			if("haut".equals(prop.getProperty("niveau"))) 
 			{
 				ServeurHaut serveur = new ServeurHaut();
-				serveur.run();
+				serveur.call();
 			} 
 			else if("bas".equals(prop.getProperty("niveau"))) 
 			{
