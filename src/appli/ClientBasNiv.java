@@ -21,11 +21,11 @@ import java.net.Socket;
  * 
  *
  */
-public class Client extends Thread
+public class ClientBasNiv extends Thread
 {
 	Socket client;
 
-	Client(Socket client)
+	ClientBasNiv(Socket client)
 	{
 		this.client = client;
 	}
