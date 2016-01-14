@@ -40,6 +40,9 @@ public class ServeurHaut
 		}
 	}
 
+	/**
+	 * Appelée pour démarrer le serveur.
+	 */
 	public void launch()
 	{
 		// c'est ce thread pool qui s'occupera de lancer les threads clients 
