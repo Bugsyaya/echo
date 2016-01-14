@@ -47,7 +47,7 @@ public class ServeurBas
 	/**
 	 * Appelée pour démarrer le serveur.
 	 */
-	public void run()
+	public void launch()
 	{
 		try
 		{

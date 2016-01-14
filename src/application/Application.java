@@ -1,5 +1,5 @@
 /**
- * Projet Programmation 2 - Licence professionnel SIL en alternance
+ * Projet Programmation 2 - Licence professionnelle SIL en alternance
  * 14 décembre 2015 / 15 janvier 2016
  *  
  * @author Cadorel Maël - Blin Marina
@@ -20,18 +20,19 @@ import java.util.Properties;
 
 import basNiveau.ServeurBas;
 
+
 /**
- * Classe principal de l'application
+ * Classe principale de l'application
  */
 public class Application
 {
 	/**
-	 * Méthode principal permettant de lancer l'application
-	 * 
+	 * Méthode principale permettant de lancer l'application
 	 * @param args
 	 */
 	public static void main(String[] args)
 	{
+		// configuration
 		Properties prop = new Properties();
 		
 		try 
@@ -41,16 +42,16 @@ public class Application
 			if("haut".equals(prop.getProperty("niveau"))) 
 			{
 				ServeurHaut serveur = new ServeurHaut();
-				serveur.call();
+				serveur.launch();
 			} 
 			else if("bas".equals(prop.getProperty("niveau"))) 
 			{
 				ServeurBas serveur = new ServeurBas();
-				serveur.run();
+				serveur.launch();
 			} 
 			else 
 			{
-				System.err.println("Propri�t� niveau fausse");
+				System.err.println("Propriété niveau fausse");
 			}
 		} 
 		catch (FileNotFoundException e) 
