@@ -4,17 +4,21 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.util.HashMap;
 
 public class Serveur
 {
-	PrintWriter writer = null;
 
 	int MAXCLIENT = 10;
 	int countClient = 0;
+	final HashMap<String, String> CONFIG;
 	ServerSocket connexion;
+	PrintWriter writer = null;
 
-	public Serveur()
+	public Serveur(HashMap<String, String> CONFIG)
 	{
+		this.CONFIG = CONFIG;
+		
 		try
 		{
 			this.connexion = new ServerSocket(5566);
@@ -33,7 +37,7 @@ public class Serveur
 		{
 			while (true)
 			{
-				if (countClient < 11)
+				if (countClient < Integer.valueOf(CONFIG.getOrDefault("maxclient", "10")))
 				{
 					Socket client = connexion.accept();
 
@@ -48,20 +52,20 @@ public class Serveur
 
 					countClient++;
 					writer.println("Vous êtes le " + countClient + " client\n");
-					client.setSoTimeout(180 * 1000);
+					client.setSoTimeout(1000 * Integer.valueOf(CONFIG.getOrDefault("timeout", "240")));
 
 					if (client != null)
 					{
 						System.out.println("Client connecté : " + client);
 					}
 
-					switch("haut_niveau")
+					switch(CONFIG.getOrDefault("level", "bas"))
 					{
-						case "haut_niveau": 
+						case "haut": 
 							ClientHautNiv handlerHautNiv = new ClientHautNiv(client);
 							handlerHautNiv.call();
 							break;
-						default :
+						default:
 							ClientBasNiv handlerBasNiv = new ClientBasNiv(client);
 							handlerBasNiv.start();
 							break;
