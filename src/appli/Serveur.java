@@ -5,12 +5,13 @@ import java.io.PrintWriter;
 import java.net.ServerSocket;
 import java.net.Socket;
 
-public class Serveur extends Abstract_Serveur
+public class Serveur
 {
 	PrintWriter writer = null;
 
 	int MAXCLIENT = 10;
 	int countClient = 0;
+	ServerSocket connexion;
 
 	public Serveur()
 	{
@@ -54,8 +55,17 @@ public class Serveur extends Abstract_Serveur
 						System.out.println("Client connecté : " + client);
 					}
 
-					Client handler = new Client(client);
-					handler.start();
+					switch("haut_niveau")
+					{
+						case "haut_niveau": 
+							ClientHautNiv handlerHautNiv = new ClientHautNiv(client);
+							handlerHautNiv.call();
+							break;
+						default :
+							ClientBasNiv handlerBasNiv = new ClientBasNiv(client);
+							handlerBasNiv.start();
+							break;
+					}
 				}
 				else
 				{
