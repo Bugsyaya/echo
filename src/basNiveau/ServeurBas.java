@@ -1,4 +1,4 @@
-package appli;
+package basNiveau;
 
 import java.io.FileInputStream;
 import java.io.IOException;
@@ -65,13 +65,14 @@ public class ServeurBas
 					writer.println("Vous êtes le " + countClient + " client\n");
 					
 					// le socket gère lui-même le timeout
-					client.setSoTimeout(Integer.parseInt(prop.getProperty("port")) * 1000);
+					client.setSoTimeout(Integer.parseInt(prop.getProperty("temps")) * 1000);
 
 					System.out.println("Client connecté : " + client);
 					
 					// Bas niveau : on démarre juste un thread Client
 					GestionnaireClientBas handler = new GestionnaireClientBas(client, this);
-					handler.start();
+					Thread thread = new Thread(handler);
+					thread.start();
 				}
 				else
 				{

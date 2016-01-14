@@ -1,4 +1,4 @@
-package appli;
+package basNiveau;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +11,7 @@ import java.net.Socket;
  * au serveur echo. Il implémente la tâche de renvoyer
  * au client ses messages.
  */
-public class GestionnaireClientBas extends Thread
+public class GestionnaireClientBas implements Runnable
 {
 	private Socket client;
 	private ServeurBas server;
