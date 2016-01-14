@@ -7,12 +7,12 @@ import java.io.PrintWriter;
 import java.net.Socket;
 import java.util.concurrent.Callable;
 
-public class ClientHautNiv implements Callable<Object> 
+public class GestionnaireClientHaut implements Callable<Object> 
 {
 
 	Socket client;
 
-	ClientHautNiv(Socket client)
+	GestionnaireClientHaut(Socket client)
 	{
 		this.client = client;
 	}
