@@ -11,9 +11,10 @@
  */
 package appli;
 
-import java.util.HashMap;
-import java.util.ResourceBundle;
-import java.util.MissingResourceException;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.util.Properties;
 
 /**
  * Classe principal de l'application
@@ -27,24 +28,32 @@ public class Application
 	 */
 	public static void main(String[] args)
 	{
-		HashMap<String, String> CONFIG = new HashMap<String, String>();
-		CONFIG = new HashMap<String, String>();
-		CONFIG.put("timeout", "240");
-		CONFIG.put("port", "5566");
-		CONFIG.put("level", "bas");
-        
+		Properties prop = new Properties();
+		
 		try 
 		{
-			ResourceBundle resources = ResourceBundle.getBundle("appli.config");
+			prop.load(new FileInputStream("config.properties"));
+			
+			if("haut".equals(prop.getProperty("niveau"))) 
+			{
+				ServeurHaut serveur = new ServeurHaut();
+				serveur.run();
+			} 
+			else if("bas".equals(prop.getProperty("niveau"))) 
+			{
+				ServeurBas serveur = new ServeurBas();
+				serveur.run();
+			} 
+			else 
+			{
+				System.err.println("Propriété niveau fausse");
+			}
+		} catch (FileNotFoundException e) {
+			System.err.println("Fichier config.properties introuvable");
+		} catch (IOException e) {
+			System.err.println(e.getMessage());
+		} catch (Exception e) {
+			System.err.println(e.getMessage());
 		}
-		catch(MissingResourceException e) 
-		{
-			System.out.println(	"Erreur : impossible de trouver un ficher de" +
-								"configuration 'config.properties', utilisation" +
-								"des paramÃ¨tres par dÃ©faut.");
-		}
-		
-		Serveur serveur = new Serveur(CONFIG);
-		serveur.run();
 	}
 }
