@@ -1,4 +1,12 @@
-package appli;
+/**
+ * Projet Programmation 2 - Licence professionnel SIL en alternance
+ * 14 dÈcembre 2015 / 15 janvier 2016
+ *  
+ * @author Cadorel MaÎl - Blin Marina
+ * @version 1.0.0
+ */
+
+package main.java.hautNiveau;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -10,7 +18,7 @@ import java.util.concurrent.Callable;
 public class GestionnaireClientHaut implements Callable<Object> 
 {
 
-	Socket client;
+	private Socket client;
 
 	GestionnaireClientHaut(Socket client)
 	{
@@ -19,19 +27,9 @@ public class GestionnaireClientHaut implements Callable<Object>
 
 	public Object call()
 	{
-		PrintWriter writer = null;
-
 		try
 		{
-			writer = new PrintWriter(client.getOutputStream(), true);
-		}
-		catch (IOException e1)
-		{
-			e1.printStackTrace();
-		}
-
-		try
-		{
+			PrintWriter writer = new PrintWriter(client.getOutputStream(), true);
 			BufferedReader reader = new BufferedReader(new InputStreamReader(
 					client.getInputStream()));
 
@@ -41,10 +39,10 @@ public class GestionnaireClientHaut implements Callable<Object>
 			{
 				writer.println("[Vous] : ");
 				String line = reader.readLine();
-				System.out.println("[Mot/Phrase √† retourner] : " + line);
+				System.out.println("[Mot/Phrase ‡ retourner] : " + line);
 				if (line.trim().equals("\\quit"))
 				{
-					writer.println("A bient√¥t !");
+					writer.println("A bientÙt !");
 					break;
 				}
 				writer.println("[echo] : " + line);
@@ -53,7 +51,7 @@ public class GestionnaireClientHaut implements Callable<Object>
 		}
 		catch (IOException e)
 		{
-			writer.println("Vous avez √©t√© d√©connect√© !");
+			System.out.println(e.getMessage());
 		}
 		finally
 		{
