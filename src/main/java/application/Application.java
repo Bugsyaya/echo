@@ -1,24 +1,23 @@
 /**
  * Projet Programmation 2 - Licence professionnel SIL en alternance
- * 14 dÃ©cembre 2015 / 15 janvier 2016
+ * 14 décembre 2015 / 15 janvier 2016
  *  
- * @author Cadorel MaÃ«l - Blin Marina
+ * @author Cadorel Maël - Blin Marina
  * @version 1.0.0
  */
 
 /**
  * Localisation de la classe
  */
-package application;
-
-import hautNiveau.ServeurHaut;
+package main.java.application;
 
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 
-import basNiveau.ServeurBas;
+import main.java.basNiveau.ServeurBas;
+import main.java.hautNiveau.ServeurHaut;
 
 /**
  * Classe principal de l'application
