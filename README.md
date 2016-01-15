@@ -31,9 +31,9 @@ L'application est développée en JavaSE1.7.
 Nous avons travaillé sur Eclipse et Vim, et nous avons versionné notre projet avec Git. Nous avons simulé des connexions client avec Telnet, en ligne de commande avec Bash (sous Linux)  et Putty (sous Windows).
 
 <h3>V Et du coup ? Comment lancer le projet ?</h3>
-Avec une installation Maven, et une JVM supportant 1.7, il suffit de lancer (depuis le répertoire `echo` du projet)
-	`mvn clean install`
-puis
-	`java -jar target/server.jar-jar-with-dependencies.jar`.
-Les clients peuvent s'y connecter via un
+Avec une installation Maven, et une JVM supportant 1.7, il suffit de lancer (depuis le répertoire `echo` du projet)<br/>
+	`mvn clean install`<br/>
+puis<br/>
+	`java -jar target/server.jar-jar-with-dependencies.jar`.<br/>
+Les clients peuvent s'y connecter via un<br/>
 	`telnet <ip du serveur> <port utilisé>`
