@@ -16,21 +16,24 @@ Deux implémentations sont à fournir :
 	<li>l'autre utilisant l'API de haut niveau.</li>
 </ul>
 
+<h3>III Configuration</h3>
 Au démarrage, le serveur lira un fichier de configuration pour déterminer les valeurs des paramètres suivants :
 
 <ul>
-	<li>implémentation à utiliser</li>
-	<li>nombre maximal de connexions simultanées</li>
-	<li>durée maximale d'inactivité d'une connexion</li>
-	<li>port d'écoute du serveur</li>
+	<li>`niveau` : implémentation à utiliser (défaut : haut)</li>
+	<li>`coMax` : nombre maximal de connexions simultanées (défaut : 10)</li>
+	<li>`temps` : durée maximale (en secondes) d'inactivité d'une connexion (défaut : 240)</li>
+	<li>`port` : port d'écoute du serveur (défaut : 5566)</li>
 </ul>
 
-<h3>III Réalisation</h3>
+<h3>IV Réalisation</h3>
 L'application est développée en JavaSE1.7.
 Nous avons travaillé sur Eclipse et Vim, et nous avons versionné notre projet avec Git. Nous avons simulé des connexions client avec Telnet, en ligne de commande avec Bash (sous Linux)  et Putty (sous Windows).
 
-<h3>IV Et du coup ? Comment lancer le projet ?</h3>
-Depuis un terminal équipé d'une JVM supportant 1.7, il suffit de lancer
-	`java -jar echo.jar`.
+<h3>V Et du coup ? Comment lancer le projet ?</h3>
+Avec une installation Maven, et une JVM supportant 1.7, il suffit de lancer (depuis le répertoire `echo` du projet)
+	`mvn clean install`
+puis
+	`java -jar target/server.jar-jar-with-dependencies.jar`.
 Les clients peuvent s'y connecter via un
 	`telnet <ip du serveur> <port utilisé>`
